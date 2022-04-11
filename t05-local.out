@@ -1,0 +1,59 @@
+The input data is:
+
+Salem
+        Beverly 2.4 mi via bridge
+        Danvers 3.7 mi via bridge
+        Lynn 4.9 mi
+Beverly
+        Danvers 2.9 mi
+        Salem 2.4 mi via bridge
+        Wenham 5.2 mi
+Danvers
+        Beverly 2.9 mi
+        Wenham 4.2 mi
+        Salem 3.7 mi via bridge
+Lynn
+        Salem 4.9 mi
+Wenham
+        Beverly 5.2 mi
+        Danvers 4.2 mi
+
+The shortest paths from Salem are:
+
+    The shortest path from Salem to Wenham is 7.6 mi:
+        Salem
+        Beverly
+        Wenham
+    The shortest path from Salem to Beverly is 2.4 mi:
+        Salem
+        Beverly
+    The shortest path from Salem to Danvers is 3.7 mi:
+        Salem
+        Danvers
+    The shortest path from Salem to Lynn is 4.9 mi:
+        Salem
+        Lynn
+
+The road upgrading goal can be achieved at minimal cost by upgrading:
+    Beverly to Salem
+    Danvers to Beverly
+    Danvers to Wenham
+    Lynn to Salem
+
+Connected components in event of a major storm are:
+   If all bridges fail, the following towns would form an isolated group:
+        Salem
+        Lynn
+
+   If all bridges fail, the following towns would form an isolated group:
+        Wenham
+        Beverly
+        Danvers
+
+Destruction of any of the following would result in the province becoming
+disconnected:
+    Salem
+
+
+------------------------------------------------------------------
+

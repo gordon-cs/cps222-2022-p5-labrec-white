@@ -1,0 +1,28 @@
+The input data is:
+
+Wenham
+        Hamilton 1 mi
+Hamilton
+        Wenham 1 mi
+
+The shortest paths from Wenham are:
+
+    The shortest path from Wenham to Hamilton is 1 mi:
+        Wenham
+        Hamilton
+
+The road upgrading goal can be achieved at minimal cost by upgrading:
+    Hamilton to Wenham
+
+Connected components in event of a major storm are:
+   If all bridges fail, the following towns would form an isolated group:
+        Wenham
+        Hamilton
+
+Destruction of any of the following would result in the province becoming
+disconnected:
+    (None)
+
+
+------------------------------------------------------------------
+

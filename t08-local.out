@@ -1,0 +1,107 @@
+The input data is:
+
+SALEM
+        BEVERLY 2 mi via bridge
+        DANVERS 5 mi
+        LYNN 4 mi via bridge
+        PEABODY 3 mi
+BEVERLY
+        SALEM 2 mi via bridge
+        DANVERS 2 mi
+        WENHAM 5 mi
+DANVERS
+        SALEM 5 mi
+        BEVERLY 2 mi
+        PEABODY 2 mi
+        WENHAM 5 mi
+LYNN
+        SALEM 4 mi via bridge
+        PEABODY 3 mi
+PEABODY
+        SALEM 3 mi
+        DANVERS 2 mi
+        LYNN 3 mi
+WENHAM
+        BEVERLY 5 mi
+        DANVERS 5 mi
+        HAMILTON 1 mi
+HAMILTON
+        WENHAM 1 mi
+        IPSWICH 4 mi
+IPSWICH
+        HAMILTON 4 mi
+        AMESBURY 10 mi via bridge
+AMESBURY
+        IPSWICH 10 mi via bridge
+
+The shortest paths from SALEM are:
+
+    The shortest path from SALEM to AMESBURY is 22 mi:
+        SALEM
+        BEVERLY
+        WENHAM
+        HAMILTON
+        IPSWICH
+        AMESBURY
+    The shortest path from SALEM to BEVERLY is 2 mi:
+        SALEM
+        BEVERLY
+    The shortest path from SALEM to DANVERS is 4 mi:
+        SALEM
+        BEVERLY
+        DANVERS
+    The shortest path from SALEM to HAMILTON is 8 mi:
+        SALEM
+        BEVERLY
+        WENHAM
+        HAMILTON
+    The shortest path from SALEM to IPSWICH is 12 mi:
+        SALEM
+        BEVERLY
+        WENHAM
+        HAMILTON
+        IPSWICH
+    The shortest path from SALEM to LYNN is 4 mi:
+        SALEM
+        LYNN
+    The shortest path from SALEM to PEABODY is 3 mi:
+        SALEM
+        PEABODY
+    The shortest path from SALEM to WENHAM is 7 mi:
+        SALEM
+        BEVERLY
+        WENHAM
+
+The road upgrading goal can be achieved at minimal cost by upgrading:
+    WENHAM to HAMILTON
+    BEVERLY to SALEM
+    DANVERS to BEVERLY
+    PEABODY to DANVERS
+    PEABODY to LYNN
+    IPSWICH to HAMILTON
+    WENHAM to BEVERLY
+    IPSWICH to AMESBURY
+
+Connected components in event of a major storm are:
+   If all bridges fail, the following towns would form an isolated group:
+        SALEM
+        DANVERS
+        PEABODY
+        BEVERLY
+        WENHAM
+        LYNN
+        HAMILTON
+        IPSWICH
+
+   If all bridges fail, the following towns would form an isolated group:
+        AMESBURY
+
+Destruction of any of the following would result in the province becoming
+disconnected:
+    IPSWICH
+    HAMILTON
+    WENHAM
+
+
+------------------------------------------------------------------
+

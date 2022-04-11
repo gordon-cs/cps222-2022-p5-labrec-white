@@ -1,0 +1,20 @@
+The input data is:
+
+NOWHERESVILLE
+
+The shortest paths from NOWHERESVILLE are:
+
+
+The road upgrading goal can be achieved at minimal cost by upgrading:
+
+Connected components in event of a major storm are:
+   If all bridges fail, the following towns would form an isolated group:
+        NOWHERESVILLE
+
+Destruction of any of the following would result in the province becoming
+disconnected:
+    (None)
+
+
+------------------------------------------------------------------
+
