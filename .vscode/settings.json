@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    "*.cc": "cpp",
+    "iostream": "cpp",
+    "iterator": "cpp",
+    "typeinfo": "cpp"
+  },
+  "C_Cpp.dimInactiveRegions": true
+}
