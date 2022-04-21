@@ -48,9 +48,9 @@ int main() {
       if (bridge == 'N') {
         bridgeBool = false;
       }
-      int distance;
+      float distance;
       cin >> distance;
-      graph.insertRoad(cities, distance, bridge);
+      graph.insertRoad(cities, distance, bridgeBool);
     }  
   }
   graph.breadthFirstTraverse();

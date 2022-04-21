@@ -26,14 +26,16 @@ class Graph {
     // cityB: the name of the city connected to cityA
     // distance: the "miles" or distance between cityA and cityB
     // isBridge: whether this road contains a bride or not
-    void insertRoad(string cities[2], int distance, bool isBridge);
+    void insertRoad(string cities[2], float distance, bool isBridge);
 
     // Traverse the cities and roads in the graph in a breadth first traversal
     void breadthFirstTraverse();
     
   private:
+    // First City inputted
+    string firstCity;
     // Vertex List
-    map<string, Vertex *> vertices;;
+    map<string, Vertex *> vertices;
     // Edge List
     vector<Edge *> edges;
 };
@@ -42,11 +44,11 @@ class Graph {
 class Edge {
   public:
     friend class Graph;
-    Edge(Vertex *a, Vertex *b, int edgeDistance, bool edgeIsBridge);
+    Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge);
   
   private:
     // The distance between the vertices connected by the edge
-    int distance;
+    float distance;
     // The two vertices at both ends of the bridge
     Vertex *endpoints[2];
     // Whether the edge contains a bridge
