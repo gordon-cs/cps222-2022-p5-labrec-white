@@ -47,8 +47,8 @@ class Graph {
     map<string, Vertex *> vertices;
     // Edge List
     vector<Edge *> edges;
-    // Helper structure for implementing min heap for shortest path
-    // that sorts the vertices passed in by their distance
+    // Helper structure for implementing min heap using priority_queue for 
+    // shortest path that sorts the vertices passed in by their distance
     struct LessThanByDistance;
 };
 
@@ -58,7 +58,7 @@ class Edge {
     friend class Graph;
     Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge);
     
-    // Returns the enpoint at the other end of the edge than the passed in vertex
+    // Returns the endpoint at the other end of the edge than the passed in vertex
     Vertex *getOppositeEndpoint(Vertex *vertex);
   
   private:
