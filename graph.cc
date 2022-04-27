@@ -1,11 +1,11 @@
 #include "graph.h"
 #include <iostream>
 #include <climits>
-#include <bits/stdc++.h>
+#include <stack>
 using std::stack;
 using std::cout;
 using std::endl;
-using std::sort;
+using std::priority_queue;
 
 
 Edge::Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge) {
@@ -77,32 +77,42 @@ void Graph::breadthFirstTraverse() {
   cout << endl;
 };
 
+struct Graph::LessThanByDistance {
+  bool operator()(const Vertex* lhs, const Vertex* rhs) const
+  {
+    return lhs->distance > rhs->distance;
+  }
+};
+
+
 void Graph::shortestPath() {
-  map<string, float> distances;
   // First is orgin, second is predecessor
   map<string, string> predecessors;
-  queue<Vertex *> townsToVisit = depthFirstTraverse(vertices[firstCity]);
-  townsToVisit.push(vertices[firstCity]);
+  priority_queue<Vertex *, vector<Vertex *>, LessThanByDistance> townsToVisit;
   for (map<string, Vertex *>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
-    distances[it->first] = INT_MAX;
+    if (it->first != firstCity) {
+      it->second->distance = float(INT_MAX);
+      townsToVisit.push(it->second);
+    } else {
+      it->second->distance = float(0);
+      townsToVisit.push(it->second);
+    }
   }
-
-  distances[firstCity] = 0;
   
   Vertex *currentVertex;
 
   while (!townsToVisit.empty()) {
-    currentVertex = townsToVisit.front();
+    currentVertex = townsToVisit.top();
     townsToVisit.pop();
 
     for(int i = 0; i < currentVertex->neighborEdges.size(); i++) {
       float edgeWeight = currentVertex->neighborEdges[i]->distance;
-      float altPathDistance = distances[currentVertex->name] + edgeWeight;
+      float altPathDistance = currentVertex->distance + edgeWeight;
 
       Vertex *adjacentVertex = currentVertex->neighborEdges[i]->getOppositeEndpoint(currentVertex);
 
-      if (altPathDistance < distances[adjacentVertex->name]) {
-        distances[adjacentVertex->name] = altPathDistance;
+      if (altPathDistance < adjacentVertex->distance) {
+        adjacentVertex->distance = altPathDistance;
         predecessors[adjacentVertex->name] = currentVertex->name;
       }
     }
@@ -123,7 +133,7 @@ void Graph::shortestPath() {
       }
       townsOnPath.push(firstCity);
       cout << "    " << "The shortest path from " << firstCity << " to " << 
-        it->first << " is " << distances[it->first] << " mi:" << endl;
+        it->first << " is " << it->second->distance << " mi:" << endl;
       while (!townsOnPath.empty()) {
         cout << "        " << townsOnPath.top() << endl;
         townsOnPath.pop();
