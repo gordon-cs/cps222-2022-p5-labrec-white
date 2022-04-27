@@ -47,6 +47,9 @@ class Graph {
     map<string, Vertex *> vertices;
     // Edge List
     vector<Edge *> edges;
+    // Helper structure for implementing min heap for shortest path
+    // that sorts the vertices passed in by their distance
+    struct LessThanByDistance;
 };
 
 // Helper class to store edge information to be used with class Graph
@@ -78,4 +81,7 @@ class Vertex {
     string name;
     // The list of edges that connect to this vertex's neighbors
     vector<Edge *> neighborEdges;
+    // Stores the distance for the particular vertex for the shortest
+    // path algorithm to use
+    float distance;
 };
