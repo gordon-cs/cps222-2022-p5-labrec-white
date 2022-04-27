@@ -1,9 +1,11 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <queue>
 using std::string;
 using std::vector;
 using std::map;
+using std::queue;
 
 
 class Edge;
@@ -30,6 +32,13 @@ class Graph {
 
     // Traverse the cities and roads in the graph in a breadth first traversal
     void breadthFirstTraverse();
+
+    // Uses the Dijkstra shortest path algorithm to find the greedy solution 
+    // for the shortest distance from a given point to the rest of the graph
+    void shortestPath();
+
+    // Traverse the cities and roads in the graph in depth first traversal
+    queue<Vertex *> depthFirstTraverse(Vertex *startVertex);
     
   private:
     // First City inputted
@@ -45,6 +54,9 @@ class Edge {
   public:
     friend class Graph;
     Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge);
+    
+    // Returns the enpoint at the other end of the edge than the passed in vertex
+    Vertex *getOppositeEndpoint(Vertex *vertex);
   
   private:
     // The distance between the vertices connected by the edge

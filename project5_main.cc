@@ -54,4 +54,6 @@ int main() {
     }  
   }
   graph.breadthFirstTraverse();
+  graph.shortestPath();
+  return 0;
 }
