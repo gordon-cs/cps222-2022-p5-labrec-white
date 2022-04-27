@@ -1,9 +1,14 @@
 #include "graph.h"
+#include <functional>
+#include <vector>
+#include <set>
 #include <queue>
 #include <iostream>
 using std::queue;
+using std::set;
 using std::cout;
 using std::endl;
+using std::priority_queue;
 
 Edge::Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge) {
   endpoints[0] = a;
@@ -75,4 +80,58 @@ void Graph::breadthFirstTraverse() {
       }       
     }
   }
-};
+}
+
+void Graph::minSpan() {
+  map<string, Vertex *> cluster;
+  map<int, Edge *> edges;
+  priority_queue <int, vector<int>, std::greater<int> > distances;
+  auto iter = vertices.begin();
+  vector<Edge *> shortestRoute;
+
+  // Be able to order edges by order
+  cout << "loc 1" << endl;
+  while(iter != vertices.end()) {
+    vector<Edge *> adjEdges = iter->second->neighborEdges;
+    for (int i = 0; i < adjEdges.size(); i++) {
+      edges[adjEdges[i]->distance] = adjEdges[i];
+      distances.push(adjEdges[i]->distance);
+      cout << "loc 1a" << endl;
+    }
+    iter++;
+    cout << "loc 1b" << endl;
+  }
+  cout << "loc 2" << endl;
+  cluster[firstCity] = vertices[firstCity];
+
+  int clusterSize = 0;
+  while (clusterSize != vertices.size()) {
+    // Get min edge
+    Edge *currentE = edges[distances.top()];
+    cout << "first " << distances.top() << endl;
+    distances.pop();
+    cout << "sec " << distances.top() << endl;
+    if ((cluster.find(currentE->endpoints[0]->name) == cluster.end()) ^
+        (cluster.find(currentE->endpoints[1]->name) == cluster.end())) {
+          // Add edge and vertex to cluster
+          shortestRoute.push_back(currentE);
+          if (cluster.find(currentE->endpoints[0]->name) == cluster.end()) {
+            cluster[currentE->endpoints[0]->name] = currentE->endpoints[0];
+          } else {
+            cluster[currentE->endpoints[1]->name] = currentE->endpoints[1];
+          }
+          clusterSize++;
+        }
+        cout << currentE->endpoints[0]->name << currentE->endpoints[1]->name << endl;
+        cout << "rsize " << shortestRoute.size() << endl;
+        cout << "loc 3 csize: " << clusterSize << " csize " << vertices.size() << endl;    
+  }
+  // Print route
+  cout << 
+    "The road upgrading goal can be achieved at minimal cost by upgrading: "
+    << endl;
+  for (int i = 0; i < shortestRoute.size(); i++) {
+    cout << "        " << shortestRoute[i]->endpoints[0]->name << " to " << 
+      shortestRoute[i]->endpoints[1]->name << endl;
+  }
+}

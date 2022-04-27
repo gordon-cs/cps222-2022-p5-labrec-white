@@ -30,6 +30,14 @@ class Graph {
 
     // Traverse the cities and roads in the graph in a breadth first traversal
     void breadthFirstTraverse();
+
+    // Determine the shortest route from the provincial capital to 
+    // each of the other towns
+    // Starts from first city
+    void shortestRoute();
+
+    void minSpan();
+
     
   private:
     // First City inputted
