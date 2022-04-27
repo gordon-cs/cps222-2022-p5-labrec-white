@@ -19,15 +19,29 @@ Vertex::Vertex(string name)
 : name(name) {
 }
 
+Graph::Graph(){};
+Graph::~Graph(){
+  while (!vertices.empty()) {
+    map<string, Vertex *>::iterator it = vertices.begin();
+    Vertex *toDelete = it->second;
+    vertices.erase(it->first);
+    delete toDelete;
+  }
+
+
+  while (!edges.empty()) {
+    Edge *toDelete = edges.back();
+    edges.pop_back();
+    delete toDelete;
+  }
+};
+
 void Graph::insertCity(string cityName) {
   if (vertices.empty()) {
     firstCity = cityName;
   }
   vertices[cityName] = new Vertex(cityName);
 };
-
-Graph::Graph(){};
-Graph::~Graph(){};
 
 void Graph::insertRoad(string cities[2], float distance, bool isBridge) {
   Vertex *cityA = vertices[cities[0]];
