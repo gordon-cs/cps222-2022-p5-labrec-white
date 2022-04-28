@@ -159,17 +159,18 @@ void Graph::shortestPath() {
 
 
 
-queue<pair<Vertex *, int>> Graph::depthFirstTraverse(Vertex *startVertex) {
-  queue<pair<Vertex *, int>> DFS;
+vector<Vertex *> Graph::depthFirstTraverse(Vertex *startVertex) {
+  vector<Vertex *> DFS;
   stack<Vertex *> cityStack;
   map<Vertex *, bool> visited;
   cityStack.push(startVertex);
-  int ordering = 0;
+  int ordering = 1;
   while (!cityStack.empty()) {
     Vertex *currentVertex = cityStack.top();
     cityStack.pop();
     if (visited.find(currentVertex) == visited.end()) {
-      DFS.push(pair<Vertex *, int> (currentVertex, ordering));
+      currentVertex->distance = ordering;
+      DFS.push_back(currentVertex);
       ordering++;
       visited[currentVertex] = true;
       for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
@@ -178,6 +179,11 @@ queue<pair<Vertex *, int>> Graph::depthFirstTraverse(Vertex *startVertex) {
     }
   }
   return DFS;
+}
+
+void Graph::findArticulationPoints() {
+  vector<Vertex *> DFS = depthFirstTraverse(vertices[firstCity]);
+
 }
 
 Vertex *Edge::getOppositeEndpoint(Vertex *vertex) {

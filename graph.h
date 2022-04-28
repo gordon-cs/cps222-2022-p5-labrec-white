@@ -15,7 +15,7 @@ class Graph {
   public:
 
     Graph();
-    ~Graph(); // TODO
+    ~Graph();
 
     // Create a new city, by default this will have no roads
     // Params:
@@ -36,13 +36,16 @@ class Graph {
     // Uses the Dijkstra shortest path algorithm to find the greedy solution 
     // for the shortest distance from a given point to the rest of the graph
     void shortestPath();
-
+    
+    // Finds the articulation points of a certain graph and prints them
+    // to the terminal according to the rules of the project
+    void findArticulationPoints();
+    
+  private:
     // Traverse the cities and roads in the graph in depth first traversal
     // ordering them with integers starting at 1. Helper function
     // for checking for biconnectivity/articulation points.
-    queue<pair<Vertex *, int>> depthFirstTraverse(Vertex *startVertex);
-    
-  private:
+    vector<Vertex *> depthFirstTraverse(Vertex *startVertex);
     // First City inputted
     string firstCity;
     // Vertex List
@@ -58,6 +61,7 @@ class Graph {
 class Edge {
   public:
     friend class Graph;
+    // Constructor, create new edge between the given vertices
     Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge);
     
     // Returns the endpoint at the other end of the edge than the passed in vertex
@@ -84,6 +88,8 @@ class Vertex {
     // The list of edges that connect to this vertex's neighbors
     vector<Edge *> neighborEdges;
     // Stores the distance for the particular vertex for the shortest
-    // path algorithm to use
+    // path and articulation point algorithm. Index 0 is the only index
+    // used shortest path. For the articulation points algorithm, index
+    // 0 stores Num(v) and index 1 stores Low(v)
     float distance;
 };
