@@ -6,6 +6,7 @@ using std::stack;
 using std::cout;
 using std::endl;
 using std::priority_queue;
+using std::pair;
 
 
 Edge::Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge) {
@@ -20,6 +21,7 @@ Vertex::Vertex(string name)
 }
 
 Graph::Graph(){};
+
 Graph::~Graph(){
   while (!vertices.empty()) {
     map<string, Vertex *>::iterator it = vertices.begin();
@@ -27,7 +29,6 @@ Graph::~Graph(){
     vertices.erase(it->first);
     delete toDelete;
   }
-
 
   while (!edges.empty()) {
     Edge *toDelete = edges.back();
@@ -156,16 +157,20 @@ void Graph::shortestPath() {
   }
 }
 
-queue<Vertex *> Graph::depthFirstTraverse(Vertex *startVertex) {
-  queue<Vertex *> DFS;
+
+
+queue<pair<Vertex *, int>> Graph::depthFirstTraverse(Vertex *startVertex) {
+  queue<pair<Vertex *, int>> DFS;
   stack<Vertex *> cityStack;
   map<Vertex *, bool> visited;
   cityStack.push(startVertex);
+  int ordering = 0;
   while (!cityStack.empty()) {
     Vertex *currentVertex = cityStack.top();
     cityStack.pop();
     if (visited.find(currentVertex) == visited.end()) {
-      DFS.push(currentVertex);
+      DFS.push(pair<Vertex *, int> (currentVertex, ordering));
+      ordering++;
       visited[currentVertex] = true;
       for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
         cityStack.push(currentVertex->neighborEdges[i]->getOppositeEndpoint(currentVertex));

@@ -38,7 +38,9 @@ class Graph {
     void shortestPath();
 
     // Traverse the cities and roads in the graph in depth first traversal
-    queue<Vertex *> depthFirstTraverse(Vertex *startVertex);
+    // ordering them with integers starting at 1. Helper function
+    // for checking for biconnectivity/articulation points.
+    queue<pair<Vertex *, int>> depthFirstTraverse(Vertex *startVertex);
     
   private:
     // First City inputted
