@@ -105,7 +105,7 @@ void Graph::shortestPath() {
     currentVertex = townsToVisit.top();
     townsToVisit.pop();
 
-    for(int i = 0; i < currentVertex->neighborEdges.size(); i++) {
+    for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
       float edgeWeight = currentVertex->neighborEdges[i]->distance;
       float altPathDistance = currentVertex->distance + edgeWeight;
 
