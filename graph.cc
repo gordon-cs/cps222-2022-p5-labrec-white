@@ -88,6 +88,7 @@ struct Graph::LessThanByDistance {
 void Graph::shortestPath() {
   // First is orgin, second is predecessor
   map<string, string> predecessors;
+  // Keep track of shortest distance
   priority_queue<Vertex *, vector<Vertex *>, LessThanByDistance> townsToVisit;
   for (map<string, Vertex *>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
     if (it->first != firstCity) {
