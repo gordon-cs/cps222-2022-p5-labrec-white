@@ -101,10 +101,12 @@ void Graph::shortestPath() {
   }
   
   Vertex *currentVertex;
+  int index = 0;
 
   while (!townsToVisit.empty()) {
     currentVertex = townsToVisit.top();
     townsToVisit.pop();
+    cout << index++ << " " << currentVertex->name << endl;
 
     for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
       float edgeWeight = currentVertex->neighborEdges[i]->distance;
