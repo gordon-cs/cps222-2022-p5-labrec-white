@@ -52,9 +52,9 @@ class Graph {
     map<string, Vertex *> vertices;
     // Edge List
     vector<Edge *> edges;
-    // Helper structure for implementing min heap using priority_queue for 
-    // shortest path that sorts the vertices passed in by their distance
-    struct LessThanByDistance;
+    // Helper structure for implementing min heap for shortest path
+    // that sorts the vertices passed in by their distance
+    struct SortByDistance;
 };
 
 // Helper class to store edge information to be used with class Graph
