@@ -2,7 +2,7 @@
 #include <iostream>
 #include <climits>
 #include <stack>
-#include <bits/stdc++.h>
+#include <algorithm>
 using std::stack;
 using std::cout;
 using std::endl;
