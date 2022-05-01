@@ -55,6 +55,6 @@ int main() {
   }
   graph.breadthFirstTraverse();
   graph.shortestPath();
-  graph.findArticulationPoints();
+  graph.connectedComponents();
   return 0;
 }

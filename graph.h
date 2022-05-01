@@ -36,22 +36,35 @@ class Graph {
     // Uses the Dijkstra shortest path algorithm to find the greedy solution 
     // for the shortest distance from a given point to the rest of the graph
     void shortestPath();
-    
-    // Finds the articulation points of a certain graph and prints them
-    // to the terminal according to the rules of the project
-    void findArticulationPoints();
+
+    void connectedComponents();
     
   private:
+
+
+    // Recursive helper for connected component analysis
+    void findComponent(vector<Vertex *> &components, Vertex *currentVertex);
+
+    // UNUSED AND ESSENTIALLY DEPRECATED BUT WILL LEAVE HER IF NEEDED LATER
+    //
+    //
     // Traverse the cities and roads in the graph in depth first traversal
     // ordering them with integers starting at 1. Helper function
-    // for checking for biconnectivity/articulation points.
+    // for checking for biconnectivity/articulation points. 
     vector<Vertex *> depthFirstTraverse(Vertex *startVertex);
+
+    // A helper method to set all vertices "seen" attribute to false in preparation for traversal
+    void setUnseen();
+
     // First City inputted
     string firstCity;
+
     // Vertex List
     map<string, Vertex *> vertices;
+
     // Edge List
     vector<Edge *> edges;
+
     // Helper structure for implementing min heap for shortest path
     // that sorts the vertices passed in by their distance
     struct SortByDistance;
@@ -61,6 +74,7 @@ class Graph {
 class Edge {
   public:
     friend class Graph;
+
     // Constructor, create new edge between the given vertices
     Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge);
     
@@ -70,8 +84,10 @@ class Edge {
   private:
     // The distance between the vertices connected by the edge
     float distance;
+
     // The two vertices at both ends of the bridge
     Vertex *endpoints[2];
+
     // Whether the edge contains a bridge
     bool isBridge;
 };
@@ -80,16 +96,23 @@ class Edge {
 class Vertex {
   public:
     friend class Graph;
+
     // Constructor, creates new vertex with a set name
     Vertex(string name);
+
   private:
     // The name of the vertex
     string name;
+
     // The list of edges that connect to this vertex's neighbors
     vector<Edge *> neighborEdges;
+
     // Stores the distance for the particular vertex for the shortest
     // path and articulation point algorithm. Index 0 is the only index
-    // used shortest path. For the articulation points algorithm, index
+    // used shortest in path. For the articulation points algorithm, index
     // 0 stores Num(v) and index 1 stores Low(v)
-    float distance;
+    float distance[2];
+
+    // Stores whether this vertex has been seen or not for traversals
+    bool seen;
 };
