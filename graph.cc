@@ -2,10 +2,11 @@
 #include <iostream>
 #include <climits>
 #include <stack>
+#include <algorithm>
 using std::stack;
 using std::cout;
 using std::endl;
-using std::priority_queue;
+using std::sort;
 
 
 Edge::Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge) {
@@ -77,35 +78,36 @@ void Graph::breadthFirstTraverse() {
   cout << endl;
 };
 
-struct Graph::LessThanByDistance {
-  bool operator()(const Vertex* lhs, const Vertex* rhs) const
-  {
+struct Graph::SortByDistance {
+  bool operator()(Vertex* lhs, Vertex* rhs) {
     return lhs->distance > rhs->distance;
   }
-};
+} sortByDistance;
 
 
 void Graph::shortestPath() {
   // First is orgin, second is predecessor
   map<string, string> predecessors;
-  priority_queue<Vertex *, vector<Vertex *>, LessThanByDistance> townsToVisit;
+  // Keep track of shortest distance
+  vector<Vertex *> townsToVisit;
   for (map<string, Vertex *>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
     if (it->first != firstCity) {
       it->second->distance = float(INT_MAX);
-      townsToVisit.push(it->second);
+      townsToVisit.push_back(it->second);
     } else {
       it->second->distance = float(0);
-      townsToVisit.push(it->second);
+      townsToVisit.push_back(it->second);
     }
   }
   
   Vertex *currentVertex;
 
   while (!townsToVisit.empty()) {
-    currentVertex = townsToVisit.top();
-    townsToVisit.pop();
+    sort(townsToVisit.begin(), townsToVisit.end(), sortByDistance);
+    currentVertex = townsToVisit.back();
+    townsToVisit.pop_back();
 
-    for(int i = 0; i < currentVertex->neighborEdges.size(); i++) {
+    for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
       float edgeWeight = currentVertex->neighborEdges[i]->distance;
       float altPathDistance = currentVertex->distance + edgeWeight;
 

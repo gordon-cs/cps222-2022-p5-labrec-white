@@ -49,7 +49,7 @@ class Graph {
     vector<Edge *> edges;
     // Helper structure for implementing min heap for shortest path
     // that sorts the vertices passed in by their distance
-    struct LessThanByDistance;
+    struct SortByDistance;
 };
 
 // Helper class to store edge information to be used with class Graph
