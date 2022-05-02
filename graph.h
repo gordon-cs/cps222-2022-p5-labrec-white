@@ -45,14 +45,6 @@ class Graph {
     // Recursive helper for connected component analysis
     void findComponent(vector<Vertex *> &components, Vertex *currentVertex);
 
-    // UNUSED AND ESSENTIALLY DEPRECATED BUT WILL LEAVE HER IF NEEDED LATER
-    //
-    //
-    // Traverse the cities and roads in the graph in depth first traversal
-    // ordering them with integers starting at 1. Helper function
-    // for checking for biconnectivity/articulation points. 
-    vector<Vertex *> depthFirstTraverse(Vertex *startVertex);
-
     // A helper method to set all vertices "seen" attribute to false in preparation for traversal
     void setUnseen();
 

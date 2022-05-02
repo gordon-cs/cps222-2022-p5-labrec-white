@@ -213,25 +213,3 @@ Vertex *Edge::getOppositeEndpoint(Vertex *vertex) {
   }
 }
 
-vector<Vertex *> Graph::depthFirstTraverse(Vertex *startVertex) {
-  vector<Vertex *> DFS;
-  stack<Vertex *> cityStack;
-  map<Vertex *, bool> visited;
-  cityStack.push(startVertex);
-  int ordering = 1;
-  while (!cityStack.empty()) {
-    Vertex *currentVertex = cityStack.top();
-    cityStack.pop();
-    if (visited.find(currentVertex) == visited.end()) {
-      currentVertex->distance[0] = ordering;
-      DFS.push_back(currentVertex);
-      ordering++;
-      visited[currentVertex] = true;
-      for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
-        cityStack.push(currentVertex->neighborEdges[i]->getOppositeEndpoint(currentVertex));
-      }
-    }
-  }
-  return DFS;
-}
-
