@@ -15,7 +15,7 @@ class Graph {
   public:
 
     Graph();
-    ~Graph(); // TODO
+    ~Graph();
 
     // Create a new city, by default this will have no roads
     // Params:
@@ -37,16 +37,34 @@ class Graph {
     // for the shortest distance from a given point to the rest of the graph
     void shortestPath();
 
-    // Traverse the cities and roads in the graph in depth first traversal
-    queue<Vertex *> depthFirstTraverse(Vertex *startVertex);
+    void connectedComponents();
     
   private:
+
+
+    // Recursive helper for connected component analysis
+    void findComponent(vector<Vertex *> &components, Vertex *currentVertex);
+
+    // UNUSED AND ESSENTIALLY DEPRECATED BUT WILL LEAVE HER IF NEEDED LATER
+    //
+    //
+    // Traverse the cities and roads in the graph in depth first traversal
+    // ordering them with integers starting at 1. Helper function
+    // for checking for biconnectivity/articulation points. 
+    vector<Vertex *> depthFirstTraverse(Vertex *startVertex);
+
+    // A helper method to set all vertices "seen" attribute to false in preparation for traversal
+    void setUnseen();
+
     // First City inputted
     string firstCity;
+
     // Vertex List
     map<string, Vertex *> vertices;
+
     // Edge List
     vector<Edge *> edges;
+
     // Helper structure for implementing min heap for shortest path
     // that sorts the vertices passed in by their distance
     struct SortByDistance;
@@ -56,16 +74,20 @@ class Graph {
 class Edge {
   public:
     friend class Graph;
+
+    // Constructor, create new edge between the given vertices
     Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge);
     
-    // Returns the enpoint at the other end of the edge than the passed in vertex
+    // Returns the endpoint at the other end of the edge than the passed in vertex
     Vertex *getOppositeEndpoint(Vertex *vertex);
   
   private:
     // The distance between the vertices connected by the edge
     float distance;
+
     // The two vertices at both ends of the bridge
     Vertex *endpoints[2];
+
     // Whether the edge contains a bridge
     bool isBridge;
 };
@@ -74,14 +96,23 @@ class Edge {
 class Vertex {
   public:
     friend class Graph;
+
     // Constructor, creates new vertex with a set name
     Vertex(string name);
+
   private:
     // The name of the vertex
     string name;
+
     // The list of edges that connect to this vertex's neighbors
     vector<Edge *> neighborEdges;
+
     // Stores the distance for the particular vertex for the shortest
-    // path algorithm to use
-    float distance;
+    // path and articulation point algorithm. Index 0 is the only index
+    // used shortest in path. For the articulation points algorithm, index
+    // 0 stores Num(v) and index 1 stores Low(v)
+    float distance[2];
+
+    // Stores whether this vertex has been seen or not for traversals
+    bool seen;
 };
