@@ -86,7 +86,34 @@ void Graph::breadthFirstTraverse() {
 
 void Graph::minSpan() {
   map<string, Vertex *> cluster;
-  map<int, vector<Edge *> > edges;
+  set<Vertex *> adjToCluster;
+  vector<Edge *> spanningRoads;
+
+  Vertex * currentVertex = vertices[firstCity];
+
+  
+  while (true) {  
+    
+
+    
+  // Add adjacent edges of cluster
+  
+  // add vertex of shortest to cluster 
+  
+  for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
+    Edge *currentEdge = currentVertex->neighborEdges[i]->
+    // adjToCluster.insert()
+  }
+
+  // Choose shortest adjacent edge
+
+
+
+  }
+
+
+  // Maps distances to edges with that distance
+  map<int, vector<Edge *> > edgesMap;
   vector<int> distances;
   auto iter = vertices.begin();
   vector<Edge *> shortestRoute;
@@ -98,7 +125,7 @@ void Graph::minSpan() {
     cout << counter++ << endl;
     vector<Edge *> adjEdges = iter->second->neighborEdges;
     for (int i = 0; i < adjEdges.size(); i++) {
-      edges[adjEdges[i]->distance].push_back(adjEdges[i]);
+      edgesMap[adjEdges[i]->distance].push_back(adjEdges[i]);
       auto inCollection = std::find(distances.begin(), 
                                     distances.end(), 
                                     adjEdges[i]->distance);
@@ -109,6 +136,7 @@ void Graph::minSpan() {
     }
     iter++;
   }
+  
   cluster[firstCity] = vertices[firstCity];
 
   sort(distances.begin(), distances.end());
@@ -120,9 +148,9 @@ void Graph::minSpan() {
     int edgeLen = *edgeLenIt;
     distances.erase(edgeLenIt);
     cout << "Here" << endl;
-    for (int i = 0; i < edges[edgeLen].size(); i++) {
+    for (int i = 0; i < edgesMap[edgeLen].size(); i++) {
       cout << "in" << endl;
-      Edge *currentE = edges[edgeLen][i];
+      Edge *currentE = edgesMap[edgeLen][i];
     
 
       // I think this will only iterate through once, 
