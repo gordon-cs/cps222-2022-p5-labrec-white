@@ -75,6 +75,9 @@ class Edge {
     
     // Returns the endpoint at the other end of the edge than the passed in vertex
     Vertex *getOppositeEndpoint(Vertex *vertex);
+
+    // Returns whether the edge contains the vertex or not
+    bool containsVertex(Vertex *);
   
   private:
     // The distance between the vertices connected by the edge

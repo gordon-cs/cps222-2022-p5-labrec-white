@@ -54,8 +54,8 @@ int main() {
     }  
   }
   graph.breadthFirstTraverse();
-  graph.minSpan();
   graph.shortestPath();
+  graph.minSpan();
   graph.connectedComponents();
   return 0;
 }

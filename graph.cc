@@ -1,5 +1,4 @@
 #include "graph.h"
-
 #include <functional>
 #include <vector>
 #include <set>
@@ -102,97 +101,52 @@ void Graph::breadthFirstTraverse() {
 
 void Graph::minSpan() {
   map<string, Vertex *> cluster;
-  set<Vertex *> adjToCluster;
+  set<Edge *> adjToCluster;
   vector<Edge *> spanningRoads;
 
   Vertex * currentVertex = vertices[firstCity];
 
-  
-  while (true) {  
+  while (cluster.size() < vertices.size()) {
     
-
-    
-  // Add adjacent edges of cluster
-  
-  // add vertex of shortest to cluster 
-  
-  for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
-    Edge *currentEdge = currentVertex->neighborEdges[i]->
-    // adjToCluster.insert()
-  }
-
-  // Choose shortest adjacent edge
-
-
-
-  }
-
-
-  // Maps distances to edges with that distance
-  map<int, vector<Edge *> > edgesMap;
-  vector<int> distances;
-  auto iter = vertices.begin();
-  vector<Edge *> shortestRoute;
-
-  // Be able to order edges by order
-  int counter = 0;
-  int inCounter = 0;
-  while(iter != vertices.end()) {
-    cout << counter++ << endl;
-    vector<Edge *> adjEdges = iter->second->neighborEdges;
-    for (int i = 0; i < adjEdges.size(); i++) {
-      edgesMap[adjEdges[i]->distance].push_back(adjEdges[i]);
-      auto inCollection = std::find(distances.begin(), 
-                                    distances.end(), 
-                                    adjEdges[i]->distance);
-      if (inCollection == end(distances)) {
-        cout << "inCount " << ++inCounter << endl;;
-        distances.push_back(adjEdges[i]->distance);
+    cluster[currentVertex->name] = currentVertex;
+    for (int i = 0; i < edges.size(); i++) {
+      if (edges[i]->containsVertex(currentVertex)) {
+        adjToCluster.erase(edges[i]);
       }
     }
-    iter++;
-  }
-  
-  cluster[firstCity] = vertices[firstCity];
-
-  sort(distances.begin(), distances.end());
-
-  int clusterSize = 0;
-  while (!distances.empty()) {
-    // Get min length
-    auto edgeLenIt = distances.begin();
-    int edgeLen = *edgeLenIt;
-    distances.erase(edgeLenIt);
-    cout << "Here" << endl;
-    for (int i = 0; i < edgesMap[edgeLen].size(); i++) {
-      cout << "in" << endl;
-      Edge *currentE = edgesMap[edgeLen][i];
-    
-
-      // I think this will only iterate through once, 
-      // but if a vertex was before a vertex adjacent to the cluster, 
-      // it won't go back and check it
-      if ((cluster.find(currentE->endpoints[0]->name) == cluster.end()) ^
-          (cluster.find(currentE->endpoints[1]->name) == cluster.end())) {
-            // Add edge and vertex to cluster
-        shortestRoute.push_back(currentE);
-        clusterSize++;
-        if (cluster.find(currentE->endpoints[0]->name) == cluster.end()) {
-          cluster[currentE->endpoints[0]->name] = currentE->endpoints[0];
-        } else {
-          cluster[currentE->endpoints[1]->name] = currentE->endpoints[1];
-        }
+    // Add adjacent edges of currentVertex
+    for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
+      if (cluster.find(currentVertex->neighborEdges[i]->endpoints[0]->name) == cluster.end() ^
+      cluster.find(currentVertex->neighborEdges[i]->endpoints[1]->name) == cluster.end()) {
+        adjToCluster.insert(currentVertex->neighborEdges[i]);
       }
-    } 
-  }
+    }
     
+    // Choose shortest adjacent edge
+    Edge *lowEdge = *adjToCluster.begin();
+    for (set<Edge *>::iterator it = adjToCluster.begin(); it != adjToCluster.end(); ++it) {
+      if (lowEdge->distance > (*it)->distance) {
+        lowEdge = *it;
+      }
+    }
+    spanningRoads.push_back(lowEdge);
+
+    if (cluster.find(lowEdge->endpoints[0]->name) == cluster.end()) {
+      cluster[lowEdge->endpoints[0]->name] = lowEdge->endpoints[0];
+      currentVertex = lowEdge->endpoints[0];
+    } else {
+      cluster[lowEdge->endpoints[1]->name] = lowEdge->endpoints[1];
+      currentVertex = lowEdge->endpoints[1];
+    }
+  }
+
   // Print route
   cout << 
-    "The road upgrading goal can be achieved at minimal cost by upgrading: "
+    "The road upgrading goal can be achieved at minimal cost by upgrading:"
     << endl;
-  for (int i = 0; i < shortestRoute.size(); i++) {
-    cout << "        " << shortestRoute[i]->endpoints[0]->name << " to " << 
-      shortestRoute[i]->endpoints[1]->name << endl;
+  for (int i = 0; i < spanningRoads.size(); i++) {
+    cout << "        " << spanningRoads[i]->endpoints[0]->name << " to " << 
+      spanningRoads[i]->endpoints[1]->name << endl;
   }
 }
 
@@ -238,7 +192,6 @@ void Graph::shortestPath() {
   }
   
   // Print information
-
   cout << "The shortest paths from " + firstCity + " are:" << endl << endl;
 
   for (map<string, Vertex *>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
@@ -314,4 +267,13 @@ Vertex *Edge::getOppositeEndpoint(Vertex *vertex) {
   } else {
     return endpoints[0];
   }
+}
+
+bool Edge::containsVertex(Vertex *vertex) {
+  for (int i = 0; i < 2; i++) {
+    if (endpoints[i] == vertex) {
+      return true;
+    }
+  }
+  return false;
 }
