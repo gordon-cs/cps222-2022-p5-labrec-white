@@ -4,11 +4,13 @@
 #include <set>
 #include <queue>
 #include <iostream>
+#include <algorithm>
 using std::queue;
 using std::set;
 using std::cout;
 using std::endl;
 using std::priority_queue;
+using std::find;
 
 Edge::Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge) {
   endpoints[0] = a;
@@ -84,48 +86,62 @@ void Graph::breadthFirstTraverse() {
 
 void Graph::minSpan() {
   map<string, Vertex *> cluster;
-  map<int, Edge *> edges;
-  priority_queue <int, vector<int>, std::greater<int> > distances;
+  map<int, vector<Edge *> > edges;
+  vector<int> distances;
   auto iter = vertices.begin();
   vector<Edge *> shortestRoute;
 
   // Be able to order edges by order
-  cout << "loc 1" << endl;
+  int counter = 0;
+  int inCounter = 0;
   while(iter != vertices.end()) {
+    cout << counter++ << endl;
     vector<Edge *> adjEdges = iter->second->neighborEdges;
     for (int i = 0; i < adjEdges.size(); i++) {
-      edges[adjEdges[i]->distance] = adjEdges[i];
-      distances.push(adjEdges[i]->distance);
-      cout << "loc 1a" << endl;
+      edges[adjEdges[i]->distance].push_back(adjEdges[i]);
+      auto inCollection = std::find(distances.begin(), 
+                                    distances.end(), 
+                                    adjEdges[i]->distance);
+      if (inCollection == end(distances)) {
+        cout << "inCount " << ++inCounter << endl;;
+        distances.push_back(adjEdges[i]->distance);
+      }
     }
     iter++;
-    cout << "loc 1b" << endl;
   }
-  cout << "loc 2" << endl;
   cluster[firstCity] = vertices[firstCity];
 
+  sort(distances.begin(), distances.end());
+
   int clusterSize = 0;
-  while (clusterSize != vertices.size()) {
-    // Get min edge
-    Edge *currentE = edges[distances.top()];
-    cout << "first " << distances.top() << endl;
-    distances.pop();
-    cout << "sec " << distances.top() << endl;
-    if ((cluster.find(currentE->endpoints[0]->name) == cluster.end()) ^
-        (cluster.find(currentE->endpoints[1]->name) == cluster.end())) {
-          // Add edge and vertex to cluster
-          shortestRoute.push_back(currentE);
-          if (cluster.find(currentE->endpoints[0]->name) == cluster.end()) {
-            cluster[currentE->endpoints[0]->name] = currentE->endpoints[0];
-          } else {
-            cluster[currentE->endpoints[1]->name] = currentE->endpoints[1];
-          }
-          clusterSize++;
+  while (!distances.empty()) {
+    // Get min length
+    auto edgeLenIt = distances.begin();
+    int edgeLen = *edgeLenIt;
+    distances.erase(edgeLenIt);
+    cout << "Here" << endl;
+    for (int i = 0; i < edges[edgeLen].size(); i++) {
+      cout << "in" << endl;
+      Edge *currentE = edges[edgeLen][i];
+    
+
+      // I think this will only iterate through once, 
+      // but if a vertex was before a vertex adjacent to the cluster, 
+      // it won't go back and check it
+      if ((cluster.find(currentE->endpoints[0]->name) == cluster.end()) ^
+          (cluster.find(currentE->endpoints[1]->name) == cluster.end())) {
+            // Add edge and vertex to cluster
+        shortestRoute.push_back(currentE);
+        clusterSize++;
+        if (cluster.find(currentE->endpoints[0]->name) == cluster.end()) {
+          cluster[currentE->endpoints[0]->name] = currentE->endpoints[0];
+        } else {
+          cluster[currentE->endpoints[1]->name] = currentE->endpoints[1];
         }
-        cout << currentE->endpoints[0]->name << currentE->endpoints[1]->name << endl;
-        cout << "rsize " << shortestRoute.size() << endl;
-        cout << "loc 3 csize: " << clusterSize << " csize " << vertices.size() << endl;    
+      }
+    } 
   }
+    
   // Print route
   cout << 
     "The road upgrading goal can be achieved at minimal cost by upgrading: "
