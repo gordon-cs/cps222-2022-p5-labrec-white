@@ -114,32 +114,70 @@ void Graph::minSpan() {
   sort(distances.begin(), distances.end());
 
   int clusterSize = 0;
-  while (!distances.empty()) {
+
+  // This takes a distance
+  // removes it from distances
+  // sees if every edge with that distance is adjacten
+
+  while (clusterSize != vertices.size()) {
     // Get min length
+    
     auto edgeLenIt = distances.begin();
     int edgeLen = *edgeLenIt;
-    distances.erase(edgeLenIt);
-    cout << "Here" << endl;
-    for (int i = 0; i < edges[edgeLen].size(); i++) {
-      cout << "in" << endl;
-      Edge *currentE = edges[edgeLen][i];
-    
+    // if (edges[edgeLen].size() == 0) {
+    //   distances.erase(edgeLenIt);
+    // }
 
-      // I think this will only iterate through once, 
-      // but if a vertex was before a vertex adjacent to the cluster, 
-      // it won't go back and check it
-      if ((cluster.find(currentE->endpoints[0]->name) == cluster.end()) ^
-          (cluster.find(currentE->endpoints[1]->name) == cluster.end())) {
-            // Add edge and vertex to cluster
-        shortestRoute.push_back(currentE);
-        clusterSize++;
-        if (cluster.find(currentE->endpoints[0]->name) == cluster.end()) {
-          cluster[currentE->endpoints[0]->name] = currentE->endpoints[0];
-        } else {
-          cluster[currentE->endpoints[1]->name] = currentE->endpoints[1];
+    // iterate through lengths
+    // for (int lenInd = 0; lenInd < edges.size(); lenInd++) {
+    for (int edgeLen = 0; edgeLen < edges.size(); edgeLen++) {
+
+      
+
+
+      // cout << "Here" << endl;
+      int limiter = 0;
+      for (int i = 0; i < edges[edgeLen].size(); i++) {
+        // cout << "in" << endl;
+        Edge *currentE = edges[edgeLen][i];
+      
+
+        // I think this will only iterate through once, 
+        // but if a vertex was before a vertex adjacent to the cluster, 
+        // it won't go back and check it
+
+        // cout << "before test " << (*(edges[edgeLen].begin() + i))->distance << " " << (*(edges[edgeLen].begin() + i))->endpoints[0]->name << (*(edges[edgeLen].begin() + i))->endpoints[1]->name << endl;
+        // cout << "csize " << cluster.size() << endl;
+        // cout << "first " << (cluster.find(currentE->endpoints[0]->name) == cluster.end()) << " " << currentE->endpoints[0]->name << endl;
+        // cout << "second " << (cluster.find(currentE->endpoints[1]->name) == cluster.end()) << " " << currentE->endpoints[1]->name << endl;
+
+        if ((cluster.find(currentE->endpoints[0]->name) == cluster.end()) ^
+            (cluster.find(currentE->endpoints[1]->name) == cluster.end())) {
+          cout << "found" << endl;
+          // Add edge and vertex to cluster
+          shortestRoute.push_back(currentE);
+
+          clusterSize++;
+          cout << "Search " << currentE->endpoints[0]->name << " " << (cluster.find(currentE->endpoints[0]->name) == cluster.end()) << " " << currentE->endpoints[1]->name << " " << (cluster.find(currentE->endpoints[1]->name) == cluster.end()) << endl;
+          if (cluster.find(currentE->endpoints[0]->name) == cluster.end()) {
+            cluster[currentE->endpoints[0]->name] = currentE->endpoints[0];
+          } else {
+            cluster[currentE->endpoints[1]->name] = currentE->endpoints[1];
+          }
+
+          // Erase the used edge
+          cout << "before " << (*(edges[edgeLen].begin() + i))->distance << endl;
+          edges[edgeLen].erase(edges[edgeLen].begin() + i);
+          cout << "after " << (*(edges[edgeLen].begin() + i))->distance << endl;
         }
       }
+      if (limiter++ == 3) {
+        break;
+      }
     } 
+
+    // Check if distances must be checked again
+
   }
     
   // Print route
