@@ -7,6 +7,7 @@ using std::stack;
 using std::cout;
 using std::endl;
 using std::sort;
+using std::min;
 
 
 Edge::Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge) {
@@ -22,7 +23,7 @@ Vertex::Vertex(string name)
 
 Graph::Graph(){};
 
-Graph::~Graph(){
+Graph::~Graph() {
   while (!vertices.empty()) {
     map<string, Vertex *>::iterator it = vertices.begin();
     Vertex *toDelete = it->second;
@@ -197,6 +198,51 @@ void Graph::findComponent(vector<Vertex *> &component, Vertex *currentVertex) {
   }
 }
 
+void Graph::analyzeBiconnectivity() {
+  setUnseen();
+  vector<Vertex *> articulationPoints;
+  int *index = new int;
+  *index = 1;
+  findArticulationPoints(articulationPoints, vertices[firstCity], index, nullptr);
+
+  cout << "Destruction of any of the following would result in the province becoming"
+    << endl << "disconnected:" << endl;
+    
+  if (articulationPoints.empty()) {
+    cout << "    (None)" << endl;
+    return;
+  }
+
+  for (int i = 0; i < articulationPoints.size(); i++) {
+    cout << "    " << articulationPoints[i]->name << endl;
+  }
+}
+
+void Graph::findArticulationPoints(vector<Vertex *> &articPoints, 
+                                    Vertex *currentVertex, int *index,
+                                    Vertex *parent) {
+  int numChildren = 0;
+  currentVertex->seen = true;
+  currentVertex->distance[0] = *index;
+  currentVertex->distance[1] = *index;
+  for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
+    Vertex *child = currentVertex->neighborEdges[i]->getOppositeEndpoint(currentVertex);
+    if (!child->seen) {
+      cout << currentVertex->name << " " << child->name << " " << *index << endl;
+      numChildren++;
+      *index += 1;
+      findArticulationPoints(articPoints, child, index, currentVertex);
+    }
+    if (child != parent && parent != nullptr) {
+      currentVertex->distance[1] = min(currentVertex->distance[1], child->distance[1]);
+      if (child->distance[1] >= currentVertex->distance[0]) {
+        if ((currentVertex->name != firstCity) || (numChildren > 1)) {
+          articPoints.push_back(currentVertex);
+        }
+      }
+    }
+  }
+}
 
 
 void Graph::setUnseen() {
