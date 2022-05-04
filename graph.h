@@ -55,7 +55,7 @@ class Graph {
     // parent: the current vertex's parent
     // index: the index to count the nodes on the way down
     void findArticulationPoints(vector<Vertex *> &articPoints, 
-                                  Vertex *currentVertex, int *index,
+                                  Vertex *currentVertex, int &index,
                                   Vertex *parent);
 
     // Recursive helper for connected component analysis

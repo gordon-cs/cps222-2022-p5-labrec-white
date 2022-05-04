@@ -201,8 +201,7 @@ void Graph::findComponent(vector<Vertex *> &component, Vertex *currentVertex) {
 void Graph::analyzeBiconnectivity() {
   setUnseen();
   vector<Vertex *> articulationPoints;
-  int *index = new int;
-  *index = 1;
+  int index = 1;
   findArticulationPoints(articulationPoints, vertices[firstCity], index, nullptr);
 
   cout << "Destruction of any of the following would result in the province becoming"
@@ -219,26 +218,36 @@ void Graph::analyzeBiconnectivity() {
 }
 
 void Graph::findArticulationPoints(vector<Vertex *> &articPoints, 
-                                    Vertex *currentVertex, int *index,
+                                    Vertex *currentVertex, int &index,
                                     Vertex *parent) {
-  int numChildren = 0;
+  vector<Vertex *> children;
   currentVertex->seen = true;
-  currentVertex->distance[0] = *index;
-  currentVertex->distance[1] = *index;
+  currentVertex->distance[0] = index;
+  currentVertex->distance[1] = index;
   for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
     Vertex *child = currentVertex->neighborEdges[i]->getOppositeEndpoint(currentVertex);
     if (!child->seen) {
-      cout << currentVertex->name << " " << child->name << " " << *index << endl;
-      numChildren++;
-      *index += 1;
+      children.push_back(child);
+      index++;
       findArticulationPoints(articPoints, child, index, currentVertex);
+    } else if (parent != nullptr) {
+      // Back edge neighbor
+      if (parent != child) {
+        currentVertex->distance[1] = min(currentVertex->distance[1], child->distance[0]);
+      }
     }
-    if (child != parent && parent != nullptr) {
-      currentVertex->distance[1] = min(currentVertex->distance[1], child->distance[1]);
-      if (child->distance[1] >= currentVertex->distance[0]) {
-        if ((currentVertex->name != firstCity) || (numChildren > 1)) {
-          articPoints.push_back(currentVertex);
-        }
+  }
+  
+  // Determine if articulation point
+  if (currentVertex->name == firstCity) {
+    if (children.size() > 1) {
+      articPoints.push_back(currentVertex);
+    }
+  } else {
+    for (int i = 0; i < children.size(); i++) {
+      if (currentVertex->distance[0] <= children[i]->distance[1]) {
+        articPoints.push_back(currentVertex);
+        break;
       }
     }
   }
