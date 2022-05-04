@@ -148,7 +148,7 @@ void Graph::minSpan() {
     "The road upgrading goal can be achieved at minimal cost by upgrading:"
     << endl;
   for (int i = 0; i < spanningRoads.size(); i++) {
-    cout << "        " << spanningRoads[i]->endpoints[0]->name << " to " << 
+    cout << "    " << spanningRoads[i]->endpoints[0]->name << " to " << 
       spanningRoads[i]->endpoints[1]->name << endl;
   }
   cout << endl;
@@ -243,7 +243,7 @@ void Graph::connectedComponents() {
 
   cout << "Connected components in event of a major storm are:" << endl;
   for (int i = 0; i < components.size(); i++) {
-    cout << "   If all bridges fail, the following cities would form an isolated group:" << endl;
+    cout << "   If all bridges fail, the following towns would form an isolated group:" << endl;
     for (int j = 0; j < components[i].size(); j++) {
       cout << "        " << components[i][j]->name << endl;
     }

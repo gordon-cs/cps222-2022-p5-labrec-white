@@ -1,64 +1,5 @@
 The input data is:
 
-A
-        B 3 mi via bridge
-B
-        A 3 mi via bridge
-        C 6 mi
-C
-        B 6 mi
-        D 9 mi via bridge
-D
-        C 9 mi via bridge
-        E 12 mi
-E
-        D 12 mi
-The shortest paths from A are:
-
-    The shortest path from A to B is 3 mi:
-        A
-        B
-    The shortest path from A to C is 9 mi:
-        A
-        B
-        C
-    The shortest path from A to D is 18 mi:
-        A
-        B
-        C
-        D
-    The shortest path from A to E is 30 mi:
-        A
-        B
-        C
-        D
-        E
-
-The road upgrading goal can be achieved at minimal cost by upgrading:
-        A to B
-        B to C
-        C to D
-        D to E
-Connected components in event of a major storm are:
-   If all bridges fail, the following cities would form an isolated group:
-        A
-
-   If all bridges fail, the following cities would form an isolated group:
-        B
-        C
-
-   If all bridges fail, the following cities would form an isolated group:
-        D
-        E
-
-Destruction of any of the following would result in the province becoming
-disconnected:
-    D
-    C
-    B
-gavin@LAPTOP-RQC6C9AN:~/cps222/p5/cps222-2022-p5-labrec-white$ ./project5 < t09-middle-earth.in
-The input data is:
-
 THESHIRE
         RIVENDELL 5 mi via bridge
 RIVENDELL
@@ -91,6 +32,7 @@ OSGILIATH
 MINASMORGUL
         MINASTIRITH 5 mi
         OSGILIATH 7 mi
+
 The shortest paths from THESHIRE are:
 
     The shortest path from THESHIRE to EDORAS is 18 mi:
@@ -130,18 +72,19 @@ The shortest paths from THESHIRE are:
         RIVENDELL
 
 The road upgrading goal can be achieved at minimal cost by upgrading:
-        THESHIRE to RIVENDELL
-        RIVENDELL to MORIA
-        MORIA to EDORAS
-        EDORAS to MINASTIRITH
-        MINASTIRITH to OSGILIATH
-        MINASTIRITH to MINASMORGUL
-        RIVENDELL to ERABOR
+    THESHIRE to RIVENDELL
+    RIVENDELL to MORIA
+    MORIA to EDORAS
+    EDORAS to MINASTIRITH
+    MINASTIRITH to OSGILIATH
+    MINASTIRITH to MINASMORGUL
+    RIVENDELL to ERABOR
+
 Connected components in event of a major storm are:
-   If all bridges fail, the following cities would form an isolated group:
+   If all bridges fail, the following towns would form an isolated group:
         THESHIRE
 
-   If all bridges fail, the following cities would form an isolated group:
+   If all bridges fail, the following towns would form an isolated group:
         RIVENDELL
         MORIA
         ERABOR
@@ -153,3 +96,7 @@ Connected components in event of a major storm are:
 Destruction of any of the following would result in the province becoming
 disconnected:
     RIVENDELL
+
+
+------------------------------------------------------------------
+
