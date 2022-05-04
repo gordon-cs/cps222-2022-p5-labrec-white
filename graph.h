@@ -35,8 +35,11 @@ class Graph {
 
     // Uses the Dijkstra shortest path algorithm to find the greedy solution 
     // for the shortest distance from a given point to the rest of the graph
+    // Starts from first towns
     void shortestPath();
 
+    void minSpan();  
+  
     void connectedComponents();
     
   private:
@@ -72,6 +75,9 @@ class Edge {
     
     // Returns the endpoint at the other end of the edge than the passed in vertex
     Vertex *getOppositeEndpoint(Vertex *vertex);
+
+    // Returns whether the edge contains the vertex or not
+    bool containsVertex(Vertex *);
   
   private:
     // The distance between the vertices connected by the edge
