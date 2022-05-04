@@ -55,6 +55,7 @@ int main() {
   }
   graph.breadthFirstTraverse();
   graph.shortestPath();
+  graph.minSpan();
   graph.connectedComponents();
   graph.analyzeBiconnectivity();
   return 0;

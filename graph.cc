@@ -1,14 +1,21 @@
 #include "graph.h"
+#include <functional>
+#include <vector>
+#include <set>
+#include <queue>
 #include <iostream>
+#include <algorithm>
 #include <climits>
 #include <stack>
-#include <algorithm>
-using std::stack;
+using std::queue;
+using std::set;
 using std::cout;
 using std::endl;
+using std::priority_queue;
+using std::find;
+using std::stack;
 using std::sort;
 using std::min;
-
 
 Edge::Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge) {
   endpoints[0] = a;
@@ -91,8 +98,58 @@ void Graph::breadthFirstTraverse() {
       }       
     }
   }
-  cout << endl;
-};
+}
+
+void Graph::minSpan() {
+  map<string, Vertex *> cluster;
+  set<Edge *> adjToCluster;
+  vector<Edge *> spanningRoads;
+
+  Vertex * currentVertex = vertices[firstCity];
+
+  while (cluster.size() < vertices.size()) {
+    
+    cluster[currentVertex->name] = currentVertex;
+    for (int i = 0; i < edges.size(); i++) {
+      if (edges[i]->containsVertex(currentVertex)) {
+        adjToCluster.erase(edges[i]);
+      }
+    }
+    // Add adjacent edges of currentVertex
+    for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
+      if (cluster.find(currentVertex->neighborEdges[i]->endpoints[0]->name) == cluster.end() ^
+      cluster.find(currentVertex->neighborEdges[i]->endpoints[1]->name) == cluster.end()) {
+        adjToCluster.insert(currentVertex->neighborEdges[i]);
+      }
+    }
+    
+    // Choose shortest adjacent edge
+    Edge *lowEdge = *adjToCluster.begin();
+    for (set<Edge *>::iterator it = adjToCluster.begin(); it != adjToCluster.end(); ++it) {
+      if (lowEdge->distance > (*it)->distance) {
+        lowEdge = *it;
+      }
+    }
+    spanningRoads.push_back(lowEdge);
+
+    if (cluster.find(lowEdge->endpoints[0]->name) == cluster.end()) {
+      cluster[lowEdge->endpoints[0]->name] = lowEdge->endpoints[0];
+      currentVertex = lowEdge->endpoints[0];
+    } else {
+      cluster[lowEdge->endpoints[1]->name] = lowEdge->endpoints[1];
+      currentVertex = lowEdge->endpoints[1];
+    }
+  }
+
+  // Print route
+  cout << 
+    "The road upgrading goal can be achieved at minimal cost by upgrading:"
+    << endl;
+  for (int i = 0; i < spanningRoads.size(); i++) {
+    cout << "        " << spanningRoads[i]->endpoints[0]->name << " to " << 
+      spanningRoads[i]->endpoints[1]->name << endl;
+  }
+}
 
 struct Graph::SortByDistance {
   bool operator()(Vertex* lhs, Vertex* rhs) {
@@ -136,7 +193,6 @@ void Graph::shortestPath() {
   }
   
   // Print information
-
   cout << "The shortest paths from " + firstCity + " are:" << endl << endl;
 
   for (map<string, Vertex *>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
@@ -268,3 +324,11 @@ Vertex *Edge::getOppositeEndpoint(Vertex *vertex) {
   }
 }
 
+bool Edge::containsVertex(Vertex *vertex) {
+  for (int i = 0; i < 2; i++) {
+    if (endpoints[i] == vertex) {
+      return true;
+    }
+  }
+  return false;
+}
