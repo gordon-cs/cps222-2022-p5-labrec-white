@@ -64,14 +64,14 @@ void Graph::breadthFirstTraverse() {
   // Set all vertices to unseen before traversing
   setUnseen();
   cout << "The input data is:" << endl << endl;
-  queue<Vertex *> townsToVisit;
+  queue<Vertex *> citiesToVisit;
 
-  townsToVisit.push(vertices[firstCity]);
+  citiesToVisit.push(vertices[firstCity]);
   vertices[firstCity]->seen = true;
 
-  while(!townsToVisit.empty()) {
-    Vertex *current = townsToVisit.front();
-    townsToVisit.pop();
+  while(!citiesToVisit.empty()) {
+    Vertex *current = citiesToVisit.front();
+    citiesToVisit.pop();
 
     // Visit vertex
     cout << current->name << endl;
@@ -92,7 +92,7 @@ void Graph::breadthFirstTraverse() {
       
       // Enqueue vertex
       if (!vertices[neighborCity->name]->seen) {
-        townsToVisit.push(vertices[neighborCity->name]);
+        citiesToVisit.push(vertices[neighborCity->name]);
         vertices[neighborCity->name]->seen = true;
       }       
     }
@@ -160,23 +160,23 @@ void Graph::shortestPath() {
   // First is orgin, second is predecessor
   map<string, string> predecessors;
   // Keep track of shortest distance
-  vector<Vertex *> townsToVisit;
+  vector<Vertex *> citiesToVisit;
   for (map<string, Vertex *>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
     if (it->first != firstCity) {
       it->second->distance[0] = float(INT_MAX);
-      townsToVisit.push_back(it->second);
+      citiesToVisit.push_back(it->second);
     } else {
       it->second->distance[0] = float(0);
-      townsToVisit.push_back(it->second);
+      citiesToVisit.push_back(it->second);
     }
   }
   
   Vertex *currentVertex;
 
-  while (!townsToVisit.empty()) {
-    sort(townsToVisit.begin(), townsToVisit.end(), sortByDistance);
-    currentVertex = townsToVisit.back();
-    townsToVisit.pop_back();
+  while (!citiesToVisit.empty()) {
+    sort(citiesToVisit.begin(), citiesToVisit.end(), sortByDistance);
+    currentVertex = citiesToVisit.back();
+    citiesToVisit.pop_back();
 
     for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
       float edgeWeight = currentVertex->neighborEdges[i]->distance;
@@ -196,19 +196,19 @@ void Graph::shortestPath() {
 
   for (map<string, Vertex *>::iterator it = vertices.begin(); it != vertices.end(); ++it) {
     if (it->first != firstCity) {
-      stack<string> townsOnPath;
+      stack<string> citiesOnPath;
 
-      string town = it->first;
-      while (town != firstCity) {
-        townsOnPath.push(town);
-        town = predecessors[town];
+      string city = it->first;
+      while (city != firstCity) {
+        citiesOnPath.push(city);
+        city = predecessors[city];
       }
-      townsOnPath.push(firstCity);
+      citiesOnPath.push(firstCity);
       cout << "    " << "The shortest path from " << firstCity << " to " << 
         it->first << " is " << it->second->distance[0] << " mi:" << endl;
-      while (!townsOnPath.empty()) {
-        cout << "        " << townsOnPath.top() << endl;
-        townsOnPath.pop();
+      while (!citiesOnPath.empty()) {
+        cout << "        " << citiesOnPath.top() << endl;
+        citiesOnPath.pop();
       }
     }
   }
@@ -232,7 +232,7 @@ void Graph::connectedComponents() {
 
   cout << "Connected components in event of a major storm are:" << endl;
   for (int i = 0; i < components.size(); i++) {
-    cout << "   If all bridges fail, the following towns would form an isolated group:" << endl;
+    cout << "   If all bridges fail, the following cities would form an isolated group:" << endl;
     for (int j = 0; j < components[i].size(); j++) {
       cout << "        " << components[i][j]->name << endl;
     }

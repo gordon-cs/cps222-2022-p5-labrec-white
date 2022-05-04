@@ -35,11 +35,16 @@ class Graph {
 
     // Uses the Dijkstra shortest path algorithm to find the greedy solution 
     // for the shortest distance from a given point to the rest of the graph
-    // Starts from first towns
+    // Starts from first cities
     void shortestPath();
 
+    // Finds the route with the minimum distance to connect all of the cities
+    // Outputs which roads would be the most efficient to upgrade
+    // Uses the Prim-Jarnik Algorithm
     void minSpan();  
-  
+
+    // Finds all connected components if all edges which are bridges are 
+    // destroyed
     void connectedComponents();
     
   private:
