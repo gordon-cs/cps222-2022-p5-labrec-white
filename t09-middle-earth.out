@@ -1,0 +1,155 @@
+The input data is:
+
+A
+        B 3 mi via bridge
+B
+        A 3 mi via bridge
+        C 6 mi
+C
+        B 6 mi
+        D 9 mi via bridge
+D
+        C 9 mi via bridge
+        E 12 mi
+E
+        D 12 mi
+The shortest paths from A are:
+
+    The shortest path from A to B is 3 mi:
+        A
+        B
+    The shortest path from A to C is 9 mi:
+        A
+        B
+        C
+    The shortest path from A to D is 18 mi:
+        A
+        B
+        C
+        D
+    The shortest path from A to E is 30 mi:
+        A
+        B
+        C
+        D
+        E
+
+The road upgrading goal can be achieved at minimal cost by upgrading:
+        A to B
+        B to C
+        C to D
+        D to E
+Connected components in event of a major storm are:
+   If all bridges fail, the following cities would form an isolated group:
+        A
+
+   If all bridges fail, the following cities would form an isolated group:
+        B
+        C
+
+   If all bridges fail, the following cities would form an isolated group:
+        D
+        E
+
+Destruction of any of the following would result in the province becoming
+disconnected:
+    D
+    C
+    B
+gavin@LAPTOP-RQC6C9AN:~/cps222/p5/cps222-2022-p5-labrec-white$ ./project5 < t09-middle-earth.in
+The input data is:
+
+THESHIRE
+        RIVENDELL 5 mi via bridge
+RIVENDELL
+        THESHIRE 5 mi via bridge
+        ERABOR 15 mi via bridge
+        MORIA 5 mi
+ERABOR
+        RIVENDELL 15 mi via bridge
+        MORIA 17 mi
+        EDORAS 22 mi
+        MINASTIRITH 20 mi
+MORIA
+        RIVENDELL 5 mi
+        ERABOR 17 mi
+        EDORAS 8 mi
+EDORAS
+        MORIA 8 mi
+        ERABOR 22 mi
+        MINASTIRITH 10 mi
+        OSGILIATH 12 mi
+MINASTIRITH
+        ERABOR 20 mi
+        EDORAS 10 mi
+        OSGILIATH 2 mi via bridge
+        MINASMORGUL 5 mi
+OSGILIATH
+        EDORAS 12 mi
+        MINASTIRITH 2 mi via bridge
+        MINASMORGUL 7 mi
+MINASMORGUL
+        MINASTIRITH 5 mi
+        OSGILIATH 7 mi
+The shortest paths from THESHIRE are:
+
+    The shortest path from THESHIRE to EDORAS is 18 mi:
+        THESHIRE
+        RIVENDELL
+        MORIA
+        EDORAS
+    The shortest path from THESHIRE to ERABOR is 20 mi:
+        THESHIRE
+        RIVENDELL
+        ERABOR
+    The shortest path from THESHIRE to MINASMORGUL is 33 mi:
+        THESHIRE
+        RIVENDELL
+        MORIA
+        EDORAS
+        MINASTIRITH
+        MINASMORGUL
+    The shortest path from THESHIRE to MINASTIRITH is 28 mi:
+        THESHIRE
+        RIVENDELL
+        MORIA
+        EDORAS
+        MINASTIRITH
+    The shortest path from THESHIRE to MORIA is 10 mi:
+        THESHIRE
+        RIVENDELL
+        MORIA
+    The shortest path from THESHIRE to OSGILIATH is 30 mi:
+        THESHIRE
+        RIVENDELL
+        MORIA
+        EDORAS
+        OSGILIATH
+    The shortest path from THESHIRE to RIVENDELL is 5 mi:
+        THESHIRE
+        RIVENDELL
+
+The road upgrading goal can be achieved at minimal cost by upgrading:
+        THESHIRE to RIVENDELL
+        RIVENDELL to MORIA
+        MORIA to EDORAS
+        EDORAS to MINASTIRITH
+        MINASTIRITH to OSGILIATH
+        MINASTIRITH to MINASMORGUL
+        RIVENDELL to ERABOR
+Connected components in event of a major storm are:
+   If all bridges fail, the following cities would form an isolated group:
+        THESHIRE
+
+   If all bridges fail, the following cities would form an isolated group:
+        RIVENDELL
+        MORIA
+        ERABOR
+        EDORAS
+        MINASTIRITH
+        MINASMORGUL
+        OSGILIATH
+
+Destruction of any of the following would result in the province becoming
+disconnected:
+    RIVENDELL
