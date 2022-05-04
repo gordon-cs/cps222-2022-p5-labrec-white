@@ -18,8 +18,9 @@ bool eof(istream &input) {
 }
 
 int main() {
-  Graph graph = Graph();
+  vector<Graph *> graphs;
   while (!eof(cin)) {
+    Graph *graph = new Graph();
     int cityNum;
     int roadNum;
     cin >> cityNum;
@@ -28,7 +29,7 @@ int main() {
     for (int i = 0; i < cityNum; i++) {
       string city;
       cin >> city;
-      graph.insertCity(city);
+      graph->insertCity(city);
     }
 
     for (int i = 0; i < roadNum; i++) {
@@ -50,13 +51,20 @@ int main() {
       }
       float distance;
       cin >> distance;
-      graph.insertRoad(cities, distance, bridgeBool);
-    }  
+      graph->insertRoad(cities, distance, bridgeBool);
+    }
+    graphs.push_back(graph);
   }
-  graph.breadthFirstTraverse();
-  graph.shortestPath();
-  graph.minSpan();
-  graph.connectedComponents();
-  graph.analyzeBiconnectivity();
+
+  for (int i = 0; i < graphs.size(); i++) {
+    graphs[i]->breadthFirstTraverse();
+    graphs[i]->shortestPath();
+    graphs[i]->minSpan();
+    graphs[i]->connectedComponents();
+    graphs[i]->analyzeBiconnectivity();
+    cout << endl;
+    cout << "------------------------------------------------------------------";
+    cout << endl << endl;
+  }
   return 0;
 }
