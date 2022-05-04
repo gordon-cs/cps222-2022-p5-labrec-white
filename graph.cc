@@ -15,6 +15,7 @@ using std::priority_queue;
 using std::find;
 using std::stack;
 using std::sort;
+using std::min;
 
 Edge::Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge) {
   endpoints[0] = a;
@@ -29,7 +30,7 @@ Vertex::Vertex(string name)
 
 Graph::Graph(){};
 
-Graph::~Graph(){
+Graph::~Graph() {
   while (!vertices.empty()) {
     map<string, Vertex *>::iterator it = vertices.begin();
     Vertex *toDelete = it->second;
@@ -253,6 +254,60 @@ void Graph::findComponent(vector<Vertex *> &component, Vertex *currentVertex) {
   }
 }
 
+void Graph::analyzeBiconnectivity() {
+  setUnseen();
+  vector<Vertex *> articulationPoints;
+  int index = 1;
+  findArticulationPoints(articulationPoints, vertices[firstCity], index, nullptr);
+
+  cout << "Destruction of any of the following would result in the province becoming"
+    << endl << "disconnected:" << endl;
+    
+  if (articulationPoints.empty()) {
+    cout << "    (None)" << endl;
+    return;
+  }
+
+  for (int i = 0; i < articulationPoints.size(); i++) {
+    cout << "    " << articulationPoints[i]->name << endl;
+  }
+}
+
+void Graph::findArticulationPoints(vector<Vertex *> &articPoints, 
+                                    Vertex *currentVertex, int &index,
+                                    Vertex *parent) {
+  vector<Vertex *> children;
+  currentVertex->seen = true;
+  currentVertex->distance[0] = index;
+  currentVertex->distance[1] = index;
+  for (int i = 0; i < currentVertex->neighborEdges.size(); i++) {
+    Vertex *child = currentVertex->neighborEdges[i]->getOppositeEndpoint(currentVertex);
+    if (!child->seen) {
+      children.push_back(child);
+      index++;
+      findArticulationPoints(articPoints, child, index, currentVertex);
+    } else if (parent != nullptr) {
+      // Back edge neighbor
+      if (parent != child) {
+        currentVertex->distance[1] = min(currentVertex->distance[1], child->distance[0]);
+      }
+    }
+  }
+  
+  // Determine if articulation point
+  if (currentVertex->name == firstCity) {
+    if (children.size() > 1) {
+      articPoints.push_back(currentVertex);
+    }
+  } else {
+    for (int i = 0; i < children.size(); i++) {
+      if (currentVertex->distance[0] <= children[i]->distance[1]) {
+        articPoints.push_back(currentVertex);
+        break;
+      }
+    }
+  }
+}
 
 
 void Graph::setUnseen() {

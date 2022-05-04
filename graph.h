@@ -2,6 +2,8 @@
 #include <vector>
 #include <map>
 #include <queue>
+#include <set>
+using std::set;
 using std::string;
 using std::vector;
 using std::map;
@@ -46,9 +48,21 @@ class Graph {
     // Finds all connected components if all edges which are bridges are 
     // destroyed
     void connectedComponents();
+
+    // Preforms worst case analysis on if any city was destroyed
+    void analyzeBiconnectivity();
     
   private:
 
+    // Recursive helper method for finding articulation points
+    // params:
+    // articPoints: vector passed by reference which will be 
+    // currentVertex: the vertex that we are currently indexing
+    // parent: the current vertex's parent
+    // index: the index to count the nodes on the way down
+    void findArticulationPoints(vector<Vertex *> &articPoints, 
+                                  Vertex *currentVertex, int &index,
+                                  Vertex *parent);
 
     // Recursive helper for connected component analysis
     void findComponent(vector<Vertex *> &components, Vertex *currentVertex);
