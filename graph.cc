@@ -98,6 +98,7 @@ void Graph::breadthFirstTraverse() {
       }       
     }
   }
+  cout << endl;
 }
 
 void Graph::minSpan() {
@@ -107,11 +108,12 @@ void Graph::minSpan() {
 
   Vertex * currentVertex = vertices[firstCity];
 
-  while (cluster.size() < vertices.size()) {
+  while (cluster.size() < vertices.size() && edges.size() > 0) {
     
     cluster[currentVertex->name] = currentVertex;
     for (int i = 0; i < edges.size(); i++) {
       if (edges[i]->containsVertex(currentVertex)) {
+        // Make sure both ends are in the cluster already
         adjToCluster.erase(edges[i]);
       }
     }
@@ -149,6 +151,7 @@ void Graph::minSpan() {
     cout << "        " << spanningRoads[i]->endpoints[0]->name << " to " << 
       spanningRoads[i]->endpoints[1]->name << endl;
   }
+  cout << endl;
 }
 
 struct Graph::SortByDistance {
@@ -219,6 +222,13 @@ void Graph::shortestPath() {
 void Graph::connectedComponents() {
   setUnseen();
   vector<vector<Vertex *>> components;
+  Vertex *root = vertices[firstCity];
+
+  // Prime the pump for recursive algorithm
+  vector<Vertex *> component;
+  findComponent(component, root);
+  components.push_back(component);
+
   for (int i = 0; i < edges.size(); i++) {
     if (edges[i]->isBridge) {
       for (int j = 0; j < 2; j++) {
@@ -265,12 +275,12 @@ void Graph::analyzeBiconnectivity() {
     
   if (articulationPoints.empty()) {
     cout << "    (None)" << endl;
-    return;
   }
 
   for (int i = 0; i < articulationPoints.size(); i++) {
     cout << "    " << articulationPoints[i]->name << endl;
   }
+  cout << endl;
 }
 
 void Graph::findArticulationPoints(vector<Vertex *> &articPoints, 
