@@ -1,5 +1,21 @@
-project5:	graph.cc project5_main.cc
-	g++ -std=c++11 -o project5 project5_main.cc
+#RT This has multiple problems.  See correct rules below.
+#project5:	graph.cc project5_main.cc
+#	g++ -std=c++11 -o project5 project5_main.cc
+
+#RT Rebuild (relink) the executable whenever one of the source .cc files
+# is recompiled, to use the latest .o file.
+project5:	graph.o project5_main.o
+	g++ -std=c++11 -o project5 graph.o project5_main.o
+
+#RT Tell compiler to use these flags, including asking for warnings.
+CPPFLAGS=-std=c++11 -Wall
+
+# .o files depend on .h file that the .cc files include.  If the .h
+# changes, the .cc needs to be recompiled.  Make knows how to do the compile,
+# it just needs to know when.
+graph.o:	graph.h
+
+project5_main.o:	graph.h
 
 test: project5
 	mkdir test-output

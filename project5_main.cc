@@ -1,5 +1,11 @@
 #include <iostream>
-#include "graph.cc"
+//RT Do not include a .cc
+// Instead, Makefile should specify how to compile and link the
+// various .cc files.
+//RT #include "graph.cc"
+//RT do include the .h file
+#include "graph.h"
+using std::cout; //RT
 using std::cin;
 using std::endl;
 using std::istream;
@@ -24,7 +30,7 @@ int main() {
     int cityNum;
     int roadNum;
     cin >> cityNum;
-    cin >> roadNum; 
+    cin >> roadNum;
 
     for (int i = 0; i < cityNum; i++) {
       string city;
@@ -35,7 +41,7 @@ int main() {
     for (int i = 0; i < roadNum; i++) {
       string city1;
       string city2;
-      
+
       cin >> city1;
       cin >> city2;
 

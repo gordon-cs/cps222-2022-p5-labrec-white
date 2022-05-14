@@ -35,7 +35,7 @@ class Graph {
     // Traverse the cities and roads in the graph in a breadth first traversal
     void breadthFirstTraverse();
 
-    // Uses the Dijkstra shortest path algorithm to find the greedy solution 
+    // Uses the Dijkstra shortest path algorithm to find the greedy solution
     // for the shortest distance from a given point to the rest of the graph
     // Starts from first cities
     void shortestPath();
@@ -43,24 +43,25 @@ class Graph {
     // Finds the route with the minimum distance to connect all of the cities
     // Outputs which roads would be the most efficient to upgrade
     // Uses the Prim-Jarnik Algorithm
-    void minSpan();  
+    void minSpan();
 
-    // Finds all connected components if all edges which are bridges are 
+    // Finds all connected components if all edges which are bridges are
     // destroyed
     void connectedComponents();
 
     // Preforms worst case analysis on if any city was destroyed
     void analyzeBiconnectivity();
-    
+
   private:
 
     // Recursive helper method for finding articulation points
     // params:
-    // articPoints: vector passed by reference which will be 
+    // articPoints: vector passed by reference which will be
+//RT which will be ... what?
     // currentVertex: the vertex that we are currently indexing
     // parent: the current vertex's parent
     // index: the index to count the nodes on the way down
-    void findArticulationPoints(vector<Vertex *> &articPoints, 
+    void findArticulationPoints(vector<Vertex *> &articPoints,
                                   Vertex *currentVertex, int &index,
                                   Vertex *parent);
 
@@ -81,6 +82,7 @@ class Graph {
 
     // Helper structure for implementing min heap for shortest path
     // that sorts the vertices passed in by their distance
+    //RT compareDistance might be a better name
     struct SortByDistance;
 };
 
@@ -91,13 +93,13 @@ class Edge {
 
     // Constructor, create new edge between the given vertices
     Edge(Vertex *a, Vertex *b, float edgeDistance, bool edgeIsBridge);
-    
+
     // Returns the endpoint at the other end of the edge than the passed in vertex
     Vertex *getOppositeEndpoint(Vertex *vertex);
 
     // Returns whether the edge contains the vertex or not
     bool containsVertex(Vertex *);
-  
+
   private:
     // The distance between the vertices connected by the edge
     float distance;
